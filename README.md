@@ -3,7 +3,6 @@
 Proxy Scraper, IP, Subnet , Gateway ,Mac Address Changers
 # Predator AI - Proxy Scraper & Network Tool
 ![Screenshot 2023-12-02 133537](https://github.com/originalbinaryhustler/PAI/assets/118463945/d7dcdaff-8910-42b5-9514-cd55b9e6bca8)
-![Screenshot 2023-12-02 133523](https://github.com/originalbinaryhustler/PAI/assets/118463945/0b2bae78-480d-4cfb-a3c0-f79a4c50f246)
 ![Screenshot 2023-12-02 133556](https://github.com/originalbinaryhustler/PAI/assets/118463945/326ac03b-81b4-40ba-b75f-5249ec88749e)
 
 
