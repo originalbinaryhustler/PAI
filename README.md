@@ -2,6 +2,9 @@
 # PAI
 Proxy Scraper, IP, Subnet , Gateway ,Mac Address Changers
 # Predator AI - Proxy Scraper & Network Tool
+![Screenshot 2023-12-02 133537](https://github.com/originalbinaryhustler/PAI/assets/118463945/d7dcdaff-8910-42b5-9514-cd55b9e6bca8)
+![Screenshot 2023-12-02 133523](https://github.com/originalbinaryhustler/PAI/assets/118463945/0b2bae78-480d-4cfb-a3c0-f79a4c50f246)
+![Screenshot 2023-12-02 133556](https://github.com/originalbinaryhustler/PAI/assets/118463945/326ac03b-81b4-40ba-b75f-5249ec88749e)
 
 
  ▒█▀▄▒█▀▄▒██▀░█▀▄▒▄▀▄░▀█▀░▄▀▄▒█▀▄░░▒▄▀▄░█
@@ -46,6 +49,8 @@ macOS
 Linux
 Disclaimer
 This script is provided for educational purposes only. Use it responsibly and respect the terms of service of the networks you operate on.
+![Screenshot 2023-12-02 133758](https://github.com/originalbinaryhustler/PAI/assets/118463945/a02f8762-ed9f-400a-a34a-79d9dd90202e)
+![Screenshot 2023-12-02 134259](https://github.com/originalbinaryhustler/PAI/assets/118463945/c2c4937c-3c1c-4754-8197-687e7a83316b)
 
 License
 This project is licensed under the MIT License.
