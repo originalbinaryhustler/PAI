@@ -8,6 +8,8 @@ To where you are storing our main.py file
 Then run it with python3 main.py (once in the folder)
 ![Screenshot 2023-12-02 133537](https://github.com/originalbinaryhustler/PAI/assets/118463945/d7dcdaff-8910-42b5-9514-cd55b9e6bca8)
 
+Once Open you will see this!
+Enjoy staying annonymous!
 ![Screenshot 2023-12-02 133556](https://github.com/originalbinaryhustler/PAI/assets/118463945/326ac03b-81b4-40ba-b75f-5249ec88749e)
 
 
@@ -45,6 +47,8 @@ Predator AI is a Python script designed to scrape proxy addresses, change IP add
 ![Screenshot 2023-12-02 133758](https://github.com/originalbinaryhustler/PAI/assets/118463945/a02f8762-ed9f-400a-a34a-79d9dd90202e)
 
 ![Screenshot 2023-12-02 134259](https://github.com/originalbinaryhustler/PAI/assets/118463945/c2c4937c-3c1c-4754-8197-687e7a83316b)
+
+To change the MAC address on a Windows computer, open the Device Manager, expand the list of Network adapters, right-click or press and hold the network card for which you intend to change the MAC address, and select Properties in the contextual menu.
 
 Install dependencies using:
 
