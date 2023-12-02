@@ -3,7 +3,9 @@
 Proxy Scraper, IP, Subnet , Gateway ,Mac Address Changers
 # Predator AI - Proxy Scraper & Network Tool
 
-Open up CMD Command Prompt and navigate to the folder where you are storing our main.py file
+Open up CMD Command Prompt and navigate to the folder using (cd) changedirectory (https://www.digitalcitizen.life/command-prompt-how-use-basic-commands/) 
+To where you are storing our main.py file
+Then run it with python3 main.py (once in the folder)
 ![Screenshot 2023-12-02 133537](https://github.com/originalbinaryhustler/PAI/assets/118463945/d7dcdaff-8910-42b5-9514-cd55b9e6bca8)
 
 ![Screenshot 2023-12-02 133556](https://github.com/originalbinaryhustler/PAI/assets/118463945/326ac03b-81b4-40ba-b75f-5249ec88749e)
