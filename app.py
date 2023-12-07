@@ -30,7 +30,7 @@ def get_proxies():
         except requests.ConnectionError as err:
             pass
 #  print(f'{proxies} \n')
- print(f'The proxies above are all working when checked against https://httpbin.org/ip hence the 200 HTTP response code.\n Use # 5. on the Main Menu the IP checker to get further information on the proxies found.\nFound {len(proxies)} proxies alltogether.\n')
+ print(f'The proxies above are all working when checked against https://httpbin.org/ip hence the 200 HTTP response code.\n Use #3. on the Main Menu the IP checker to get further information on the proxies found.\nFound {len(proxies)} proxies alltogether.\n')
  print('''   
     / \-----------------------------------------------------------------, 
     \_,|                                                                | 
@@ -53,6 +53,189 @@ def extract(proxy):
  except requests.ConnectionError as err:
     pass
 
+
+
+def get_local_ipv6():
+   get_network_info()
+   print('''
+                    
+░█▒░░▄▀▄░▄▀▀▒▄▀▄░█▒░░░░█▒█▀▄░█▒█░█▀░░░▄▀▀░█▄█▒▄▀▄░█▄░█░▄▀▒▒██▀▒█▀▄
+▒█▄▄░▀▄▀░▀▄▄░█▀█▒█▄▄▒░░█░█▀▒░▀▄▀░██▒░░▀▄▄▒█▒█░█▀█░█▒▀█░▀▄█░█▄▄░█▀▄
+
+        ''')
+   print("This function will help you change the IPv6 Link-Local address manually.")
+   print("This can be useful for enhancing privacy and security.")
+   print("However, it may cause issues with network compatibility and performance.")
+   
+   interface = input('''
+Positive Implications:
+
+Anonymity:
+    \nChanging your IPv6 Link-Local address can provide a degree of anonymity. \nThis is because each time you change the address, it becomes harder to track your internet activity over time.
+    \nPrevent IP Exhaustion: If you are using a lot of IPv6 addresses in your network, manually changing the addresses can help prevent IP exhaustion. \nThis is because IPv6 addresses are much more plentiful than IPv4 addresses, so the risk of running out of them is much lower.
+\nNegative Implications:
+
+Potential Network Disruptions: 
+    \nIf not done correctly, manually changing the IPv6 Link-Local address can disrupt your network. \nThis is because the new address might not be properly configured, or it might conflict with an existing address. You might need to manually reconfigure your network settings to fix these issues.
+    \nIncreased Complexity: Adding a function to your Python script to manually change the IPv6 Link-Local address can increase the complexity of your script. \nThis can make the script harder to maintain and debug. You might also need to add error handling code to deal with potential issues that arise from changing the IP address.
+    \nPotential Security Risks: While changing the IPv6 Link-Local address can provide a degree of anonymity, it can also potentially expose you to security risks. \nFor example, if you change the address to a value that is predictable or that is used by another device, it could be easier for an attacker to target your device.
+                     
+\n                  
+Note: If you don't know the interface name, you can find it by scrolling up
+ 
+                  
+.---------------------------------------------------------------------------------------------------------------------------.
+| Enter the interface of the devices Temporary IPV6 Address you are trying to change or Enter q to return to the main Menu: |
+'---------------------------------------------------------------------------------------------------------------------------'      ''')
+   if interface == 'q':
+       print("Returning to Menu")
+       main()
+   ips = input('''
+.---------------------------------------------------------------------------------------------------.
+| Enter the  Temporary IPV6 Address you are trying to change or Enter q to return to the main Menu: |
+'---------------------------------------------------------------------------------------------------'      ''')
+
+  
+   if interface == 'q' or ips == 'q':
+       print("Returning to Menu")
+       main()
+   change_ipv6_address(interface,ips)
+
+def change_local_ipv6(interface,ips):
+   print("Running the command to change the IPv6 Link-Local address...")
+   
+   if os.name == 'nt':
+       print("Running on Windows...")
+       command = f'netsh interface ipv6 set address "{interface}" static {ips}'
+       subprocess.call(command, shell=True)
+   elif os.name == 'posix' and 'darwin' in platform.system():
+       print("Running on macOS...")
+       command = f'sudo ifconfig {interface} inet6 {ips} prefixlen 64 alias'
+       subprocess.call(command, shell=True)
+   elif os.name == 'posix' and 'linux' in platform.system():
+       print("Running on Linux...")
+       command = f'sudo ip -6 addr add {ips} dev {interface}'
+       subprocess.call(command, shell=True)
+   else:
+       print('Invalid OS')
+       return
+
+   print('Command complete. Check network config for {interface} Link-Local IPV6. It should now have a new Link-Local IPV6 address {ips}.')
+
+def get_ipv6():
+    get_network_info()
+    interface = input('''
+░█▒█▀▄░█▒█░█▀
+░█░█▀▒░▀▄▀░██
+
+                    
+Local Network: \nIf you're changing your IPv6 address on a local network, it could cause issues with network communication.\nOther devices on your local network would no longer be able to reach you at your old IP address.\nHowever, since IPv6 addresses are typically used for local network communication, this is less of a concern.\n
+Internet: \nIf you're changing your IPv6 address on the internet, it could cause issues with internet connectivity.\nWebsites and services that you're connected to would no longer be able to reach you at your old IP address.\nThis could result in loss of connection to those services.\n
+Security: \nChanging your IP address can also provide a temporary measure of security.\nIf you suspect that your IP address has been compromised, changing it can prevent attackers from using it to access your network or internet services.
+                
+                
+Note: If you don't know the interface name, you can find it by scrolling up
+                  
+.---------------------------------------------------------------------------------------------------------------------------.
+| Enter the interface of the devices IPV6 Address you are trying to change or Enter q to return to the main Menu: |
+'---------------------------------------------------------------------------------------------------------------------------'      ''')
+    if interface == 'q':
+       print("Returning to Menu")
+       main()
+    ips = input('''
+.---------------------------------------------------------------------------------------------------.
+| Enter the  IPV6 Address you are trying to change or Enter q to return to the main Menu: |
+'---------------------------------------------------------------------------------------------------'      ''')
+
+  
+    if interface == 'q' or ips == 'q':
+       print("Returning to Menu")
+       main()
+    
+    ipv6_changer(interface,ips)
+
+def change_ipv6(interface, ips):
+   if os.name == 'nt':
+       command = f'netsh interface ipv6 set address "{interface}" static {ips} 64'
+   elif os.name == 'posix' and 'darwin' in platform.system():
+       command = f'sudo ip -6 addr add {ips}/64 dev {interface}'
+   elif os.name == 'posix' and 'linux' in platform.system():
+       command = f'sudo ifconfig {interface} inet6 {ips}/64'
+   else:
+       print('Invalid OS')
+       return
+
+   print(f'Running command: {command}')
+   try:
+       subprocess.check_call(command, shell=True)
+   except subprocess.CalledProcessError as e:
+       print(f'Error running command: {e}')
+   print('Command complete check network config for {interface} IPV6 should be: {ips}')
+
+
+
+def get_temp_ipv6():
+   get_network_info()
+   print('''
+                    
+░▀█▀▒██▀░█▄▒▄█▒█▀▄░░░█▒█▀▄░█▒█░█▀░░░▄▀▀░█▄█▒▄▀▄░█▄░█░▄▀▒▒██▀▒█▀▄
+░▒█▒░█▄▄░█▒▀▒█░█▀▒▒░░█░█▀▒░▀▄▀░██▒░░▀▄▄▒█▒█░█▀█░█▒▀█░▀▄█░█▄▄░█▀▄
+
+        ''')
+   print("This function will help you change the IPv6 temporary address interval.")
+   print("This can be useful for enhancing privacy and security.")
+   print("However, it may cause issues with network compatibility and performance.")
+ 
+   interface = input('''                                  
+Pros:
+
+Privacy: Changing the IPv6 temporary address can provide a level of privacy. Since the temporary address changes frequently, \nit can make it more difficult for external systems to track your device based on its IP address.
+\nSecurity: If you suspect that your IP address has been compromised, changing it can prevent attackers from using it to access your network or internet services.
+\n
+Cons:
+
+Network Compatibility: Changing the IPv6 temporary address can cause issues with network compatibility. \nSome networks and routers may not support the generation of temporary IPv6 addresses, or may not be configured to do so.
+\nNetwork Performance: Frequent changes to the IPv6 temporary address can potentially affect network performance. \nEach time the address changes, the network has to establish a new connection, which can take time and resources.
+\n                  
+Note: If you don't know the interface name, you can find it by scrolling up.
+ 
+                  
+.---------------------------------------------------------------------------------------------------------------------------.
+| Enter the interface of the devices Temporary IPV6 Address you are trying to change or Enter q to return to the main Menu: |
+'---------------------------------------------------------------------------------------------------------------------------'      ''')
+ 
+
+   if interface == 'q':
+       print("Returning to main menu")
+       main()
+   temp_ipv6(interface)
+
+def temp_ipv6(interface):
+ print("Running the command to change the IPv6 temporary address interval...")
+ 
+ if os.name == 'nt':
+     print("Running on Windows...")
+     command = f'netsh interface ipv6 set global randomizeidentifiers=enabled'
+     subprocess.call(command, shell=True)
+     command = f'netsh interface ipv6 set privacy state=enabled'
+     subprocess.call(command, shell=True)
+ elif os.name == 'posix' and 'darwin' in platform.system():
+     print("Running on macOS...")
+     command = f'sudo sysctl -w net.inet6.ip6.use_tempaddr=1'
+     subprocess.call(command, shell=True)
+ elif os.name == 'posix' and 'linux' in platform.system():
+     print("Running on Linux...")
+     command = f'sudo sysctl -w net.ipv6.conf.{interface}.temp_valid_lft=7200'
+     subprocess.call(command, shell=True)
+     command = f'sudo sysctl -w net.ipv6.conf.{interface}.temp_prefered_lft=3600'
+     subprocess.call(command, shell=True)
+ else:
+     print('Invalid OS')
+     return
+
+ print('Command complete. Check network config for {interface} Temporary IPV6. It should now have a new temporary address.')
+
+
 def ip_changer(interface_name, new_ip):
     if os.name == 'nt': # Windows
         # subnet_mask = f'{subnet_mask}.0.0.0' 
@@ -63,16 +246,35 @@ def ip_changer(interface_name, new_ip):
     print('Command ran check your network info')
  
 def change_ip():
-    print('''
+    get_network_info()
+    print(f'''
 
           
 ░█▄░█▒██▀░▀█▀░█░░▒█░▄▀▄▒█▀▄░█▄▀░░░█░█▀▄░░░▄▀▀░█▄█▒▄▀▄░█▄░█░▄▀▒▒██▀▒█▀▄
 ░█▒▀█░█▄▄░▒█▒░▀▄▀▄▀░▀▄▀░█▀▄░█▒█▒░░█▒█▄▀▒░░▀▄▄▒█▒█░█▀█░█▒▀█░▀▄█░█▄▄░█▀▄
+    
 
           
           ''')
-    interface_name = input('Input the Interface name of the device you wish to change: ')
-    new_ip = input('Input the new IP Address: ')
+    interface_name = input('''
+Note: If you don't know the interface name, you can find it by scrolling up.
+ 
+                  
+.---------------------------------------------------------------------------------------------------------------.
+| Enter the interface of the devices IP Address you are trying to change or Enter q to return to the main Menu: |
+'---------------------------------------------------------------------------------------------------------------'      ''')
+    if interface_name == 'q':
+       print("Returning to Menu")
+       main()
+    new_ip = input('''
+.---------------------------------------------------------------------------------------.
+| Enter the  IP Address you are trying to change or Enter q to return to the main Menu: |
+'---------------------------------------------------------------------------------------'      ''')
+
+  
+    if interface_name == 'q' or new_ip == 'q':
+       print("Returning to Menu")
+       main()
     
     # default_gateway = input('Input new default gateway which is an IP you would want to change to: ')
     # subnet_mask = input('Linux and MAC e.g 24\nWindows e.g 255.255.255.0\n Input new Subnet Mask Gateway: ')
@@ -87,6 +289,7 @@ def get_network_info():
          ░█▄░█▒██▀░▀█▀░█░░▒█░▄▀▄▒█▀▄░█▄▀░░░█░█▄░█▒█▀░▄▀▄▒█▀▄░█▄▒▄█▒▄▀▄░▀█▀░█░▄▀▄░█▄░█
          ░█▒▀█░█▄▄░▒█▒░▀▄▀▄▀░▀▄▀░█▀▄░█▒█▒░░█░█▒▀█░█▀░▀▄▀░█▀▄░█▒▀▒█░█▀█░▒█▒░█░▀▄▀░█▒▀█
 
+Loading...
          ''')
    if os.name == 'nt': # Windows
        command = 'ipconfig'
@@ -105,6 +308,7 @@ def mac_change(interface_name, new_mac):
         subprocess.run(f'sudo ifconfig {interface_name} up', shell=True)
        
 def change_mac():
+    get_network_info()
     print('''
           
           
@@ -116,9 +320,22 @@ def change_mac():
     if os.name.lower() == 'nt': # Windows
         print("Changing MAC address is only supported on Mac and Linux at this moment.\n\n To change your MAC on a Windows computer, open the Device Manager, expand the list of Network adapters,\n right-click or press and hold the network card for which you intend to change the MAC address,\n and select Properties in the contextual menu from there you will be able to change your MAC address on windows.\n")
     else:
-        interface_name = input('Input the Interface name of the device you wish to change the MAC address of\n')
-        new_mac = input("Enter the new MAC address: \n example: 00:11:22:33:44:55\n Enter:  ")
-        mac_change(interface_name, new_mac)
+            interface_name = input('''
+Note: If you don't know the interface name, you can find it by scrolling up.
+ 
+                  
+.------------------------------------------------------------------------------.
+| Enter the Interface name of the device you wish to change the MAC address of:|
+'------------------------------------------------------------------------------'      ''')
+    if interface_name == 'q':
+       print("Returning to Menu")
+       main()
+    new_mac = input('''
+.------------------------------------------------------------.
+| example mac: 00:11:22:33:44:55 Enter the new MAC address:: |
+'------------------------------------------------------------'      ''')
+    
+    mac_change(interface_name, new_mac)
     # change_mac_choice = input("Do you want to change the MAC address? (yes/no): ")
     # if change_mac_choice.lower() == 'no' or change_mac_choice.lower() == 'n':
     #     print('''
@@ -143,6 +360,7 @@ def geo_info(ip_address):
 
 
 def get_geo_info():
+    get_network_info()
     print('''
           
           
@@ -151,7 +369,16 @@ def get_geo_info():
 
           
         ''')
-    ip_address = input("Enter the IP address: ")
+    ip_address = input('''
+Note: If you don't know the interface name, you can find it by scrolling up.
+ 
+                  
+.----------------------------------------------------------------------------------------------------.
+| Enter the IP address you wish to ascertain information from or Enter q to return to the main Menu: |
+'----------------------------------------------------------------------------------------------------'   ''')
+    if ip_address == 'q':
+       print("Returning to Menu")
+       main()
     # Check if the user has encrypted traffic
     check_encrypted_traffic = is_encrypted_traffic(ip_address)
     print(f"\n The likelyhood user has Encrypted Traffic: {check_encrypted_traffic}")
@@ -190,20 +417,23 @@ def change_DNS():
 
            
           ''')
-    dns = input('Examples DNS: google 8.8.8.8 - 8.8.4.4\n cloudfare 1.1.1.1 - 1.0.0.1 \n openDNS 208.67.222.222 - 208.67.220.220 \nInput DNS:  ')
+    dns = input('''Examples DNS: \nGoogle 8.8.8.8 - 8.8.4.4\nCloudfare 1.1.1.1 - 1.0.0.1 \nOpenDNS 208.67.222.222 - 208.67.220.220 \n\n
+.----------------------------------------------.
+| Input DNS or enter q to return to main menu: |
+'----------------------------------------------'      ''')
+    if dns.lower() == 'q':
+        print('\nReturning to Menu.\n')
+        main()
     DNS_changer(dns)
 def DNS_changer(dns):
    os_type = platform.system()
    print('Changing DNS now.. Check your configurations after.')
    if os_type == 'Windows':
-       # For Windows, you can use the `netsh` command to change the DNS settings
        os.system(f'netsh interface ip set dns name="Local Area Connection" static {dns}')
    elif os_type == 'Linux':
-       # For Linux, you can use the `resolv.conf` file to change the DNS settings
        with open('/etc/resolv.conf', 'w') as f:
            f.write(f'nameserver {dns}\n')
    elif os_type == 'Darwin':
-       # For MacOS, you can use the `networksetup` command to change the DNS settings
        os.system(f'networksetup -setdnsservers Wi-Fi {dns}')
    else:
        print('Unsupported OS')
@@ -235,7 +465,8 @@ In order to reset manually you must:
            'ipconfig /registerdns',
            'ipconfig /release',
            'ipconfig /renew',
-           'netsh winsock reset'
+           'netsh winsock reset',
+           'netsh int ip reset'
        ]
    elif os_type == 'Darwin': # MacOS
        commands = [
@@ -255,45 +486,228 @@ In order to reset manually you must:
        subprocess.call(command, shell=True)
        
 def static_ip_getter():
-    print(''' 
+    get_network_info()  
+    interface = input(''' 
           
           
-░▄▀▀░▀█▀▒▄▀▄░▀█▀░█░▄▀▀░░░█▒█▀▄░░░▒░░░▄▀▀░█▒█░██▄░█▄░█▒██▀░▀█▀░█▄▒▄█▒▄▀▄░▄▀▀░█▄▀░░░▒░░░▄▀▒▒▄▀▄░▀█▀▒██▀░█░░▒█▒▄▀▄░▀▄▀░░
-▒▄██░▒█▒░█▀█░▒█▒░█░▀▄▄▒░░█░█▀▒▒░░█▒░▒▄██░▀▄█▒█▄█░█▒▀█░█▄▄░▒█▒░█▒▀▒█░█▀█▒▄██░█▒█▒░░█▒░░▀▄█░█▀█░▒█▒░█▄▄░▀▄▀▄▀░█▀█░▒█▒▒░
+░▄▀▀░▀█▀▒▄▀▄░▀█▀░█░▄▀▀░░░█▒█▀▄░░
+▒▄██░▒█▒░█▀█░▒█▒░█░▀▄▄▒░░█░█▀▒▒░
 
-          
-          ''' )
-    os_type = platform.system()
-    interface = input('Input Interface Name:  ')
-    ip = input('Enter IP Address e.g 192.168.1.2:  ')
-    subnetmask = input('Enter subnetmask e.g 192.168.1.1:  ')
-    if os_type == 'Windows':
-        geteway = input('Enter a gateway e.g 255.255.255.0:  ')
-def set_static_ip(interface, ip, subnet_mask, gateway='24'):
+The main purpose of this function is to provide a way to manually set a static IP address for a network interface. \nThis can be useful in situations where you want to have a consistent IP address for a device, \nsuch as a server or a device that hosts a service that needs to be accessible from a specific IP address.
+
+Pros and Cons:
+
+Pros:
+
+Ease of Access: \nHaving a static IP address means that you can always access your device from the same IP address. \nThis can be particularly useful if you are hosting a service that needs to be accessible from a specific IP address.
+Troubleshooting: \nStatic IP addresses can make it easier to troubleshoot network issues. Since the IP address does not change, \nyou can always connect to the device using the same IP address.
+\n\nCons:
+
+Security: Static IP addresses can potentially expose your device to security risks. \nSince the IP address does not change, it can be easier for attackers to target your device.
+Flexibility: Static IP addresses are less flexible than dynamic IP addresses. \nIf you need to move your device to a different network or location, you will need to manually change the IP address
+
+Note: If you don't know the interface name, you can find it by scrolling up.
+ 
+                  
+.---------------------------------------------------------------------------------------------------------------------------.
+| Enter the interface of the devices Static IPV6 Address you are trying to change or Enter q to return to the main Menu: |
+'---------------------------------------------------------------------------------------------------------------------------'      ''')
+    if interface == 'q' or ips == 'q':
+       print("Returning to Menu")
+       main()
+    ips = input('''
+.---------------------------------------------------------------------------------------------------.
+| Enter the Static IPV6 Address you are trying to change or Enter q to return to the main Menu: |
+'---------------------------------------------------------------------------------------------------'      ''')
+
+  
+    if interface == 'q' or ips == 'q':
+       print("Returning to Menu")
+       main()
+    set_static_ip(interface,ips)
+
+         
+    
+    
+    
+def set_static_ip(interface, ip):
    os_type = platform.system()
 
    if os_type == 'Windows':
-       command = f'netsh interface ip set address name="{interface}" static {ip} {subnet_mask} {gateway}'
+       command = f'netsh interface ip set address name="{interface}" static {ips} '
        subprocess.call(command, shell=True)
    elif os_type == 'Darwin': # MacOS
-       command = f'sudo ifconfig {interface} {ip} netmask {subnet_mask} up'
+       command = f'sudo ifconfig {interface} {ips} '
        subprocess.call(command, shell=True)
    elif os_type == 'Linux':
-       command = f'sudo ifconfig {interface} {ip} netmask {subnet_mask} up'
+       command = f'sudo ifconfig {interface} {ips} '
        subprocess.call(command, shell=True)
    else:
        print(f"Unsupported OS: {os_type}")
 
+
+def subgate_getter():
+    get_network_info()
+    print(''' 
+          
+          
+░▄▀▀░█▒█░██▄░█▄░█▒██▀░▀█▀░█▄▒▄█▒▄▀▄░▄▀▀░█▄▀░░░
+▒▄██░▀▄█▒█▄█░█▒▀█░█▄▄░▒█▒░█▒▀▒█░█▀█▒▄██░█▒█▒░░
+
+
+Subnet Mask:
+
+Network Size: \nThe subnet mask determines the size of the network. A smaller subnet mask results in a smaller network, which can limit the number of devices that can connect to the network. Conversely, \na larger subnet mask results in a larger network, which can accommodate more devices.
+\nIP Address Usage: \nChanging the subnet mask can affect the way IP addresses are used within the network. If you increase the subnet mask, you may be able to use a larger share of host addresses, \nbut this requires reconfiguring all routers and other statically assigned computers and renewing all DHCP clients.
+
+
+          
+Note: If you don't know the interface name, you can find it by scrolling up.
+''')
+    interface = (''' 
+ 
+                  
+.-----------------------------------------------------------------------------------------------------------.
+| Enter the interface of the interface name you are trying to change or Enter q to return to the main Menu: |
+'-----------------------------------------------------------------------------------------------------------'     ''')
+    if interface == 'q':
+       print("Returning to Menu")
+       main()
+    ips = input('''
+.-----------------------------------------------------------------------------------------------.
+| Enter the SubnetMask Address you are trying to change or Enter q to return to the main Menu:  |
+'-----------------------------------------------------------------------------------------------'     ''')
+
+  
+    if subnet_mask == 'q' or subnet_mask == 'q':
+       print("Returning to Menu")
+       main()
+    
+    
+    
+    
+    set_subgate(interface,subnet_mask)
+def set_subgate(interface, subnet_mask):
+   os_type = platform.system()
+
+   if os_type == 'Windows':
+       command = f'netsh interface ip set address name="{interface}" {subnet_mask}'
+       subprocess.call(command, shell=True)
+   elif os_type == 'Darwin': # MacOS
+       command = f'sudo ifconfig {interface}  netmask {subnet_mask} up'
+       subprocess.call(command, shell=True)
+   elif os_type == 'Linux':
+       command = f'sudo ifconfig {interface}  netmask {subnet_mask} up'
+       subprocess.call(command, shell=True)
+   else:
+       print(f"Unsupported OS: {os_type}")
+
+def default_gateway_setter():
+   get_network_info()
+   print(''' 
+         
+░▄▀▒▒▄▀▄░▀█▀▒██▀░█░░▒█▒▄▀▄░▀▄▀
+░▀▄█░█▀█░▒█▒░█▄▄░▀▄▀▄▀░█▀█░▒█▒
+
+
+
+
+Default Gateway:
+
+Network Routing: \nThe default gateway is the IP address of the router that a device uses to access the internet or other networks. Changing the default gateway can affect how a device routes its network traffic. \nIf the new default gateway is not reachable or is not configured correctly, it can cause network connectivity issues.
+\nNetwork Security: \nThe default gateway is a potential entry point for external traffic to enter your network. If the default gateway is compromised, it can potentially expose your network to security risks. \nTherefore, it's important to ensure that the default gateway is secure and is not an easy target for attackers.
+
+Network Routing: \nThe gateway is the IP address of the router that a device uses to access the internet or other networks. Changing the gateway can affect how a device routes its network traffic. \nIf the new gateway is not reachable or is not configured correctly, it can cause network connectivity issues.
+\nNetwork Security: \nThe gateway is a potential entry point for external traffic to enter your network. If the gateway is compromised, it can potentially expose your network to security risks. \nTherefore, it's important to ensure that the gateway is secure and is not an easy target for attackers.
+         
+Note: If you don't know the interface name, you can find it by scrolling up.
+''')
+   interface = (''' 
+ 
+                
+.-----------------------------------------------------------------------------------------------------------.
+| Enter the interface of the interface name you are trying to change or Enter q to return to the main Menu: |
+'-----------------------------------------------------------------------------------------------------------'    ''')
+   if interface == 'q':
+      print("Returning to Menu")
+      main()
+   default_gateway = input('''
+.-----------------------------------------------------------------------------------------------.
+| Enter the Default Gateway Address you are trying to change or Enter q to return to the main Menu: |
+'-----------------------------------------------------------------------------------------------'    ''')
+
+ 
+   if default_gateway == 'q' or default_gateway == 'q':
+      print("Returning to Menu")
+      main()
+   
+   
+   
+   
+   set_default_gateway(interface,default_gateway)
+def set_default_gateway(interface, default_gateway):
+  os_type = platform.system()
+
+  if os_type == 'Windows':
+      command = f'netsh interface ip set address name="{interface}" gateway={default_gateway}'
+      subprocess.call(command, shell=True)
+  elif os_type == 'Darwin': # MacOS
+      command = f'sudo route -n delete default && sudo route -n add default {default_gateway}'
+      subprocess.call(command, shell=True)
+  elif os_type == 'Linux':
+      command = f'sudo route del default && sudo route add default gw {default_gateway}'
+      subprocess.call(command, shell=True)
+  else:
+      print(f"Unsupported OS: {os_type}")
+
+
+def about():
+    print('''\n
+▒▄▀▄░██▄░▄▀▄░█▒█░▀█▀
+░█▀█▒█▄█░▀▄▀░▀▄█░▒█▒
+
+
+    ▒█▀▄▒█▀▄▒██▀░█▀▄▒▄▀▄░▀█▀░▄▀▄▒█▀▄░░▒▄▀▄░█
+lil ░█▀▒░█▀▄░█▄▄▒█▄▀░█▀█░▒█▒░▀▄▀░█▀▄▒░░█▀█░█
+
+          
+
+PREDATOR AI TOKEN
+░▄▀▀░▄▀▄░█▄░█░▀█▀▒█▀▄▒▄▀▄░▄▀▀░▀█▀ :
+░▀▄▄░▀▄▀░█▒▀█░▒█▒░█▀▄░█▀█░▀▄▄░▒█▒ :     0x000000000000000000000000
+
+
+                             mm                  mm                  
+                            m@@                  @@    @@            
+                             @@                        @@            
+*@@*    m@    *@@*  mm@*@@   @@m@@@@m   m@@*@@@*@@@  @@@@@@   mm@*@@ 
+  @@   m@@@   m@   m@*   @@  @@    *@@  @@   **  @@    @@    m@*   @@
+   @@ m@  @@ m@    !@******  !@     @@  *@@@@@m  !@    @@    !@******
+    @@@    @!!     !@m    m  !!!   m@!       @@  !@    @!    !@m    m
+    !@!!   !:!     !!******  !!     !!  *!   @!  !!    !!    !!******
+    !!!    !:!     :!!       :!!   !!!  !!   !!  !!    !!    :!!            :
+     :      :       : : ::   : : : ::   : :!:  : : :   ::: :  : : ::        :     https://predator-ai.net
+     
+     
+
+Our script boasts a set of network scripts that can automate tasks which can be advantageous in many ways:
+
+Network Security: \nThe script can change the IP address of a given network interface, \nwhich can help protect against IP-based attacks. \nBy changing the IP address, the system becomes harder to locate and target, enhancing its security.
+\nMAC Address Changing: \nThe script can change the MAC address of a given network interface. \nThis can help protect against MAC-based attacks, \nas the MAC address is a unique identifier for network interfaces.
+\nDNS Changing: \nThe script can change the DNS settings of the system. \nThis can help protect against DNS-based attacks, \nas it can prevent attackers from using DNS to redirect traffic to malicious servers.
+\nEncryption Checking: \nThe script can check if a given IP address is using encrypted traffic. \nThis can help protect against traffic interception and eavesdropping attacks.    
+          ''')
+
 def quit():
     print(''' 
-                                  ,-----------------------------------o
-                                 (_    Terminating the programme..._   /~" 
+                 ,-----------------------------------o
+                (_    Terminating the programme..._   /~ 
                                     
                   ''')
     print('''   
                     
-▒█▀▄▒█▀▄▒██▀░█▀▄▒▄▀▄░▀█▀░▄▀▄▒█▀▄░░▒▄▀▄░█
-░█▀▒░█▀▄░█▄▄▒█▄▀░█▀█░▒█▒░▀▄▀░█▀▄▒░░█▀█░█
+    ▒█▀▄▒█▀▄▒██▀░█▀▄▒▄▀▄░▀█▀░▄▀▄▒█▀▄░░▒▄▀▄░█
+lil ░█▀▒░█▀▄░█▄▄▒█▄▀░█▀█░▒█▒░▀▄▀░█▀▄▒░░█▀█░█
     
     ''') 
     exit()
@@ -419,17 +833,23 @@ async def get_ip_for_server(server):
 
     
 options = {
-     "1: Get Proxies" : get_proxies,
-     "2: Get Network Information" : get_network_info,
-     "3: Change IP Address" : change_ip,
-     "4: Change MAC Address" : change_mac,
-     "5: Get GeoInfo from IP Address" : get_geo_info,
-     '6: Check Encrypted Traffic' : check_encryption,
-     '7: Check Website / Server' : check_connectivity,
-     '8: Reset DNS and IP Address' : reset_dns,
-     '9: DNS Changer' : change_DNS,
-     '10: Static IP - SubnetMask - Gateway Setter' : static_ip_getter,
-     "11: Terminate the program" : quit
+     "1:  Get Proxies - WARNING - AUTO STARTs on selection" : get_proxies,
+     "2:  Get Network Information" : get_network_info,
+     "3:  Get GeoInfo from IP Address" : get_geo_info,
+     "4:  Change IPV4 Address" : change_ip,
+     "5:  Change IPV6 Address" : get_ipv6,
+     "6:  Change Local IPV6 Address" : get_local_ipv6,
+     "7:  Change Temporary IPV6 Address Interval Change" : get_temp_ipv6,
+     "8:  Change MAC Address" : change_mac,
+     "9:  Change Static IP" : static_ip_getter,
+     "10: Change SubnetMask" : subgate_getter,
+     "11: Change Default Gateway" : default_gateway_setter,
+     "12: Change DNS" : change_DNS,
+     "13: Reset DNS and IP Address - WARNING - AUTO STARTs on selection" : reset_dns,
+     "14: Check Encrypted Traffic - Coming soon current version prone to bugging -" : check_encryption,
+     "15: Check Website / Server - Coming soon current version prone to bugging -" : check_connectivity,
+     "16: Information about this script" : about,
+     "17: Terminate the program" : quit
 }
 
 
@@ -447,17 +867,21 @@ def menu(options):
    
 def main():
     print('''
+Version.0.0.08
     ==+===+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++==+===
     ==+===+++++++++++++++++++╔═══╗╔═══╗╔═══╗╔═══╗╔═══╗╔════╗╔═══╗╔═══╗    ╔═══╗╔══╗++++++++++++++++==+===
-    ==+===+++++++++++++++++++║╔═╗║║╔═╗║║╔══╝╚╗╔╗║║╔═╗║║╔╗╔╗║║╔═╗║║╔═╗║    ║╔═╗║╚╣╠╝++++++++++++++++==+===
-    ==+===+++++++++++++++++++║╚═╝║║╚═╝║║╚══╗ ║║║║║║ ║║╚╝║║╚╝║║ ║║║╚═╝║    ║║ ║║ ║║ ++++++++++++++++==+===
-    ==+===+++++++++++++++++++║╔══╝║╔╗╔╝║╔══╝ ║║║║║╚═╝║  ║║  ║║ ║║║╔╗╔╝    ║╚═╝║ ║║ ++++++++++++++++==+===
-    ==+===+++++++++++++++++++║║   ║║║╚╗║╚══╗╔╝╚╝║║╔═╗║ ╔╝╚╗ ║╚═╝║║║║╚╗    ║╔═╗║╔╣╠╗++++++++++++++++==+===
-    ==+===+++++++++++++++lil ╚╝   ╚╝╚═╝╚═══╝╚═══╝╚╝ ╚╝ ╚══╝ ╚═══╝╚╝╚═╝    ╚╝ ╚╝╚══╝++++++++++++++++==+===
+    ==+===++++++++++++++++ ++║╔═╗║║╔═╗║║╔══╝╚╗╔╗║║╔═╗║║╔╗╔╗║║╔═╗║║╔═╗║    ║╔═╗║╚╣╠╝++++++++++++++++==+===
+    ==+===++++++++++++++++ ++║╚═╝║║╚═╝║║╚══╗ ║║║║║║ ║║╚╝║║╚╝║║ ║║║╚═╝║    ║║ ║║ ║║ ++++++++++++++++==+===
+    ==+===+++++++++++++++   +║╔══╝║╔╗╔╝║╔══╝ ║║║║║╚═╝║  ║║  ║║ ║║║╔╗╔╝    ║╚═╝║ ║║ ++++++++++++++++==+===
+    ==+===+++++++++++++++   +║║   ║║║╚╗║╚══╗╔╝╚╝║║╔═╗║ ╔╝╚╗ ║╚═╝║║║║╚╗    ║╔═╗║╔╣╠╗++++++++++++++++==+===
+    ==+===++++++++++++++ lil ╚╝   ╚╝╚═╝╚═══╝╚═══╝╚╝ ╚╝ ╚══╝ ╚═══╝╚╝╚═╝    ╚╝ ╚╝╚══╝++++++++++++++++==+===
     ==+===++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=++++++++++++++++++++==+===
     ''')
 
-    print('PREDATOR AI TOKEN')
+    print('''PREDATOR AI TOKEN
+░▄▀▀░▄▀▄░█▄░█░▀█▀▒█▀▄▒▄▀▄░▄▀▀░▀█▀ :
+░▀▄▄░▀▄▀░█▒▀█░▒█▒░█▀▄░█▀█░▀▄▄░▒█▒ :     0x000000000000000000000000
+          ''')
    
    
 
@@ -465,7 +889,7 @@ def main():
         menu(options)
         choice = input( ''' 
  .-------------------. 
-(| enter your choice |) (1/8):
+(| enter your choice |) (1/17):
  '-------------------'         ... ? ''')
 
         # if choice in options:
@@ -476,40 +900,58 @@ def main():
             print(f"\nProxies:\n{proxies}\n")
         elif choice == "2":
             network_info = get_network_info()
-            print(network_info)
+            
         elif choice == "3":
-            new_ip = change_ip()
-            print(new_ip)
-        elif choice == "4":
-            new_mac = change_mac()
-            print(new_mac)
-        elif choice == "5":
             geo_info = get_geo_info()
             print(geo_info)
+        elif choice == "4":
+            new_ip = change_ip()
+            print(new_ip)
+        elif choice == "5":
+            new_ip = get_ipv6()
+            print('Changing IPV6 check your network information.')
         elif choice == "6":
-            encrypted_website = asyncio.run(check_encryption())
-            print(encrypted_website)
+            new_ip = get_local_ipv6()
+            print('Changing Local IPV6 check your network information.')
         elif choice == "7":
-            get_connectivity = asyncio.run(check_connectivity())
-            print(get_connectivity)
+            new_ip = get_temp_ipv6()
+            print('Changing Temporary IPV6 Interval check your network information.')
+        
         elif choice == "8":
-            reset_dns()
-            print('DNS Reset')
+            new_mac = change_mac()
+            print(new_mac)
         elif choice == "9":
-            change_DNS()
-            print('Check your network configuration')
-        elif choice == "10":
             static_ip_getter()
             print('Check your network configuration to see if the effects have taken place.')
-        elif choice.lower() == '11' :
+        elif choice == "10":
+            subgate_getter()
+            print('Check your network configuration to see if the effects have taken place.')
+        elif choice == "11":
+            change_DNS()
+            print('Check your network configuration')
+        elif choice == "12":
+            default_gateway_setter()
+            print('Check your network configuration')
+        elif choice == "13":
+            reset_dns()
+            print('DNS Reset')
+        elif choice == "14":
+            encrypted_website = asyncio.run(check_encryption())
+            print(encrypted_website)
+        elif choice == "15":
+            get_connectivity = asyncio.run(check_connectivity())
+            print(get_connectivity)
+        elif choice == "16":
+            about()
+        elif choice.lower() == '17' :
             print('''
 ==+===+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++==+===
 ==+===+++++++++++++++++++╔═══╗╔═══╗╔═══╗╔═══╗╔═══╗╔════╗╔═══╗╔═══╗    ╔═══╗╔══╗++++++++++++++++==+===
 ==+===+++++++++++++++++++║╔═╗║║╔═╗║║╔══╝╚╗╔╗║║╔═╗║║╔╗╔╗║║╔═╗║║╔═╗║    ║╔═╗║╚╣╠╝++++++++++++++++==+===
 ==+===+++++++++++++++++++║╚═╝║║╚═╝║║╚══╗ ║║║║║║ ║║╚╝║║╚╝║║ ║║║╚═╝║    ║║ ║║ ║║ ++++++++++++++++==+===
 ==+===+++++++++++++++++++║╔══╝║╔╗╔╝║╔══╝ ║║║║║╚═╝║  ║║  ║║ ║║║╔╗╔╝    ║╚═╝║ ║║ ++++++++++++++++==+===
-==+===+++++++++++++++++++║║   ║║║╚╗║╚══╗╔╝╚╝║║╔═╗║ ╔╝╚╗ ║╚═╝║║║║╚╗    ║╔═╗║╔╣╠╗++++++++++++++++==+===
-==+===+++++++++++++++lil ╚╝   ╚╝╚═╝╚═══╝╚═══╝╚╝ ╚╝ ╚══╝ ╚═══╝╚╝╚═╝    ╚╝ ╚╝╚══╝++++++++++++++++==+===
+==+===+++++++++++++++   +║║   ║║║╚╗║╚══╗╔╝╚╝║║╔═╗║ ╔╝╚╗ ║╚═╝║║║║╚╗    ║╔═╗║╔╣╠╗++++++++++++++++==+===
+==+===++++++++++++++ lil ╚╝   ╚╝╚═╝╚═══╝╚═══╝╚╝ ╚╝ ╚══╝ ╚═══╝╚╝╚═╝    ╚╝ ╚╝╚══╝++++++++++++++++==+===
 ==+===++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=++++++++++++++++++++==+===
             ''')
             quit()
@@ -522,16 +964,16 @@ def main():
 
         continue_choice = input('''
                                 
-                                .--------------------------------------------.
-                                | Press the Enter key or Return 'no' to quit |
-                                '--------------------------------------------'        ...?    ''')
+.--------------------------------------------.
+| Press the Enter key or Return 'no' to quit |
+'--------------------------------------------'        ...?    ''')
         if continue_choice.lower() == 'yes' or continue_choice.lower() == 'y':
             main()
         elif continue_choice.lower() == 'no' or continue_choice.lower() == 'n':
             print('''
                                                    
                                   ,-----------------------------------o
-                                 (_    Terminating the programme..._   /~" 
+                                 (_    Terminating the programme..._   /~ 
                                    
                                    
                                    
@@ -556,8 +998,10 @@ def main():
                     
      ▒█▀▄▒█▀▄▒██▀░█▀▄▒▄▀▄░▀█▀░▄▀▄▒█▀▄░░▒▄▀▄░█
  lil ░█▀▒░█▀▄░█▄▄▒█▄▀░█▀█░▒█▒░▀▄▀░█▀▄▒░░█▀█░█
-    
-                  ''')           
+ 
+ 匚ㄖ几ㄒ尺卂匚ㄒ :     0x0000000000000
+ 
+ 山乇乃丂丨ㄒ乇   :     https://Predator-AI.net                   ''')           
 main()
 if __name__ == "__main__":
     app.run(debug=True)
