@@ -173,7 +173,7 @@ def get_proxies():
 def extract(proxy):
  headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0'}
  try:
-    r = requests.get('https://httpbin.org/ip', headers=headers, proxies={'http' : proxy,'https': proxy})
+    r = requests.get('https://httpbin.org/ip', headers=headers, proxies={'http' : proxy,'https': proxy}, timeout=10)
     print(r.json(), str(r.status_code)+ '\n')
  except requests.ConnectionError as err:
     pass
